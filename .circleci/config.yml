@@ -1,0 +1,18 @@
+---
+version: 2.1
+
+jobs:
+  # Verifies all terraform code has been formatted. To fix, run `terraform fmt`
+  # inside the folder containing the terraform (and install an editor auto-save
+  # format hook!)
+  terraform-fmt:
+    docker:
+      - image: hashicorp/terraform:1.0.2
+    steps:
+      - checkout
+      - run: find projects -type d -exec terraform fmt -check -diff {} \;
+
+workflows:
+  build:
+    jobs:
+      - terraform-fmt
